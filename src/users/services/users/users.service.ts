@@ -55,6 +55,7 @@ export class UsersService {
       const payload = { username: foundUser.username, sub: foundUser.id };
       return {
         access_token: await this.jwtService.signAsync(payload),
+        token_type:"bearer"
       }; 
     
     } else {
