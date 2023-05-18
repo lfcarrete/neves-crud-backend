@@ -30,6 +30,13 @@ export class User {
   password: string;
 
   @Column({
+    name: 'salt',
+    nullable: false,
+    default: '',
+  })
+  salt: string;
+
+  @Column({
     name: 'created-at',
   })
   created_at: string;
