@@ -5,7 +5,8 @@ import { UsersService  } from 'src/users/services/users/users.service';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly userService: UsersService) {}
+    constructor(
+      private readonly userService: UsersService) {}
 
     @Get()
     getUsers() {
@@ -28,7 +29,7 @@ export class UsersController {
       return this.userService.createUser(createUserDto);
     }
 
-    @Post('signin')
+    @Post('login')
     @UsePipes(ValidationPipe)
     signInUsers(@Body() signInUsersDto: SignInUserDto) {
       return this.userService.signIn(signInUsersDto);

@@ -5,11 +5,13 @@ import { SignInUserDto } from 'src/users/dto/signin_user.dto';
 import { CreateUserDto } from 'src/users/dto/user.dto';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private jwtService: JwtService
   ) { }
 
   getUsers() {
@@ -34,6 +36,9 @@ export class UsersService {
   findUsersById(id: number) {
     return this.userRepository.findOneBy({ id });
   }
+  async findUsersByUsername(username: string) {
+    return await this.userRepository.findOneBy({username:username})
+  }
 
   async remove(id: number): Promise<void> {
     await this.userRepository.delete(id);
@@ -41,12 +46,17 @@ export class UsersService {
 
   async signIn(signInUserDto: SignInUserDto) {
 
-    const foundUser = await this.userRepository.findOneBy({username:signInUserDto.username})
+    const foundUser = await this.findUsersByUsername(signInUserDto.username);
     if (!foundUser){
       return "User or Password do not match."
     }
     if (await this.hashPassword(signInUserDto.password, foundUser.salt) == foundUser.password){
-      return "Signed In"
+
+      const payload = { username: foundUser.username, sub: foundUser.id };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      }; 
+    
     } else {
       return "User or Password do not match."
     }

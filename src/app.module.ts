@@ -21,7 +21,7 @@ import { User } from './typeorm/user.entity';
       }),
       inject: [ConfigService],
     }),
-    UsersModule],
+    UsersModule,],
   controllers: [],
   providers: [],
 })
