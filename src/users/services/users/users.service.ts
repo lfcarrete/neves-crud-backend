@@ -8,7 +8,6 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) { }
@@ -54,6 +53,13 @@ export class UsersService {
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {
-    return bcrypt.hash(password, salt);
+    for(let i = 0; i < 3; i++){
+      password = password + salt;
+    }
+
+    const crypto = require("crypto");
+    const sha256Hasher = crypto.createHmac("sha256", salt);
+    const hash = sha256Hasher.update(password).digest('hex');
+    return hash;
   }
 }
