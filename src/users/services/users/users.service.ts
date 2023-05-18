@@ -17,6 +17,10 @@ export class UsersService {
 
       createUser(createUserDto: CreateUserDto) {
         const newUser = this.userRepository.create(createUserDto);
+        const date = new Date();
+
+        newUser.created_at = date.toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo', });
+
         return this.userRepository.save(newUser);
       }
           
