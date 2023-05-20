@@ -14,7 +14,7 @@ import {
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest();
-      const token = this.extractTokenFromHeader(request);
+      const token = this.extractJWTFromCookie(request);
       
       if (!token) {
         throw new UnauthorizedException();
@@ -26,7 +26,6 @@ import {
             secret: jwtConstants.secret
           }
         );
-
         request['user'] = payload;
       } catch {
         throw new UnauthorizedException();
@@ -37,5 +36,11 @@ import {
     private extractTokenFromHeader(request: Request): string | undefined {
       const [type, token] = request.headers.authorization?.split(' ') ?? [];
       return type === 'Bearer' ? token : undefined;
+    }
+    private extractJWTFromCookie(req: Request): string | null {
+      if (req.cookies && req.cookies.access_token) {
+        return req.cookies.access_token;
+      }
+      return null;
     }
   }
