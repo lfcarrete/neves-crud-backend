@@ -9,11 +9,18 @@ export class User {
   id: number;
 
   @Column({
-    name: 'name',
+    name: 'first_name',
     nullable: false,
     default: '',
   })
-  name: string;
+  first_name: string;
+
+  @Column({
+    name: 'last_name',
+    nullable: false,
+    default: '',
+  })
+  last_name: string;
 
   @Column({
     name: 'username',

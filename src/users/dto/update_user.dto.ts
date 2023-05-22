@@ -10,7 +10,12 @@ export class UpdateUserDto {
     @ApiProperty()
     @IsNotEmpty()
     @MinLength(1)
-    name: string;
+    first_name: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @MinLength(1)
+    last_name: string;
 
     @ApiProperty()
     @IsNotEmpty()

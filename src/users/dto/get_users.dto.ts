@@ -9,7 +9,13 @@ export class GetUserDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    name: string;
+    @MinLength(1)
+    first_name: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @MinLength(1)
+    last_name: string;
 
     @ApiProperty()
     @IsNotEmpty()

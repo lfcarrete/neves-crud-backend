@@ -23,7 +23,8 @@ export class UsersService {
     users.map((user) => {
       const userDto = new GetUserDto();
       userDto.id = user.id;
-      userDto.name = user.name;
+      userDto.first_name = user.first_name;
+      userDto.last_name = user.last_name;
       userDto.username = user.username;
       userDto.created_at = user.created_at;
       results.push(userDto)
@@ -44,7 +45,8 @@ export class UsersService {
     }
     await this.userRepository.save(newUser);
     return {
-      name: newUser.name,
+      first_name: newUser.first_name,
+      last_name: newUser.last_name,
       username: newUser.username,
       created_at: newUser.created_at,
       id: newUser.id
@@ -56,7 +58,8 @@ export class UsersService {
     if(!user){
       return "User not found";
     }
-    (await user).name = updateUserDto.name;
+    (await user).first_name = updateUserDto.first_name;
+    (await user).last_name = updateUserDto. last_name;
     (await user).username = updateUserDto.username;
     await this.userRepository.save(await user);
     return updateUserDto;
